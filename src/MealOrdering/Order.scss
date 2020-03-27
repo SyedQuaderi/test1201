@@ -131,7 +131,7 @@
         }
         .item-btn {
             font-family: $font-family-Regular;
-            height: 215px;
+            height: 216px;
             width: 100%;
             border: 1px solid $session-item-border-color;
             font-size: 36px;
@@ -141,7 +141,7 @@
             padding: 0;
             img {
                 width: 298px;
-                height: 215px;
+                height: 216px;
             }
             .item-details {
                 margin-left: -10px;
@@ -394,17 +394,18 @@
                 display: table-cell;
             }
             .btn:disabled {
-                @include disabledBtn;
-
+                border: none;
+                background-color: $disabled-button-bg-color;
+                font-weight: $header-font-weight;
+                color: $disabled-button-font-color;
+                font-size: 38px;
+                pointer-events: none;
             }
             [tabIndex="-1"]:focus {
                 .item-order-button {
                     background-color: $placed-order-buttons-font-color;
                     color: $primary-color-active;
                     border: $primary-color-active solid 1px;
-                }
-                .btn-disabled {
-                    @include disabledBtn;
                 }
             }
         }

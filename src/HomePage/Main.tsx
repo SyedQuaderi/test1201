@@ -25,8 +25,7 @@ const initalState = {
     mainMenu: {mainMenu: {}, subMenuItems:[]},
     subMenu: {mainMenu: {}, subMenuItems:[]},
     isLoading: true,
-    isMenuLoaded: true,
-    errorMessage: ''
+    isMenuLoaded: true
 }
 
 const reducer = (state, action)=> {
@@ -38,7 +37,7 @@ const reducer = (state, action)=> {
         case '_FETCH_SUBMENU':
             return {...state, subMenu: action.subMenu}
         case '_FETCH_FAILURE':
-            return { patientDetails: {}, mainMenu: {}, subMenu:{}, isLoading: true, isMenuLoaded: true, errorMessage: action.errorMessage}
+            return { patientDetails: {}, mainMenu: {}, subMenu:{}, isLoading: true, isMenuLoaded: true}
         default:
             return state;
     }
@@ -145,14 +144,14 @@ function Main() {
         //overrideVersion = "v2"; 
         usedVersion = overrideVersion;
 
-        Axios.get(`${API}/${usedVersion}/client/${currentMode.MacID}`, {timeout: currentMode.timeOut})
+        Axios.get(`${API}/${usedVersion}/client/${currentMode.MacID}`)
         .then(response => {
             dispatchDetails({type: '_FETCH_PATIENT', patient: response.data });
             currentMode.clientGroupID = response.data.client.clientGroupId;
         })
         .catch(error => {
-            console.log(error.message);
-            dispatchDetails({type: '_FETCH_FAILURE', errorMessage: error.message});
+            console.log(error);
+            dispatchDetails({type: '_FETCH_FAILURE'});
         });        
         setLink(0);
     }, []);    
@@ -216,40 +215,32 @@ function Main() {
         if(currrentActive.length >= 1 ) {
             setTimeout(()=>{       
                 const lastFocusedElement = document.getElementsByClassName('TV');
-                if(containerRef.current !== null ) {
-                    containerRef.current = lastFocusedElement[0];
-                    containerRef.current.focus();
-                }
+                containerRef.current = lastFocusedElement[0];
+                containerRef.current.focus();
             }, 300);
             currrentActive[0].remove();
         }
         else if(hideMyCarePlan.length >= 1 ) {
             setTimeout(()=>{
                 const lastFocusedElement = document.getElementsByClassName('Care-Plan');
-                if(containerRef.current !== null ) {
-                    containerRef.current = lastFocusedElement[0];
-                    containerRef.current.focus();
-                }
+                containerRef.current = lastFocusedElement[0];
+                containerRef.current.focus();
             }, 300)
             hideMyCarePlan[0].remove();
         }
         else if(hideHDMI.length >= 1) {
             setTimeout(()=>{
                 const lastFocusedElement = document.getElementsByClassName('AV-Input');
-                if(containerRef.current !== null ) {
-                    containerRef.current = lastFocusedElement[0];
-                    containerRef.current.focus();
-                }
+                containerRef.current = lastFocusedElement[0];
+                containerRef.current.focus();
             }, 300)
             hideHDMI[0].remove();
         }
         else if(hideMealOrdering.length >=1 ) {
             setTimeout(()=>{
                 const lastFocusedElement = document.getElementsByClassName('Meal-Ordering');
-                if(containerRef.current !== null ) {
-                    containerRef.current = lastFocusedElement[0];
-                    containerRef.current.focus();
-                }
+                containerRef.current = lastFocusedElement[0];
+                containerRef.current.focus();
             }, 500)
             hideMealOrdering[0].remove();
         }
@@ -300,8 +291,8 @@ function Main() {
             </Switch>
             <div style={homePage} className={" pt-5 pl-5 pr-5 " + (redirect ? "home-page-hidden" : "home-page-main ")}>
                 { state.isLoading ? 
-                    (<><Spinner className="text-blue" variant="info" animation="border" role="status" >
-                    </Spinner><h4 className={state.errorMessage === '' ? " " : "error-message"}>{state.errorMessage}</h4></>) : 
+                    (<Spinner className="text-blue" variant="info" animation="border" role="status" >
+                    </Spinner>) : 
                     (
                     <Container fluid={true} >
                     <SpatialNavigation>

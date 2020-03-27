@@ -11,8 +11,7 @@ PESconfig.APIConfig = {
   URN1: 77732,
   URN2: 223543,
   channelID: 19,
-  clientGroupID: '',
-  timeOut: 10000
+  clientGroupID: ''
 }
 /**************************************/
 

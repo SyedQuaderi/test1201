@@ -199,7 +199,7 @@ function Order(props) {
         return () => {
             window.removeEventListener("scroll", scrollEvent, true);
         };
-    }, [scrollTopElement!== null]);
+    });
 
     function scrollToBottom() {
         scrollItems[0].scrollTo({

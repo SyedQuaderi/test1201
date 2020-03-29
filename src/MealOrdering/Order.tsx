@@ -1,4 +1,4 @@
-import React, {CSSProperties, useEffect, useState, useRef, useReducer} from 'react';
+import React, {CSSProperties, useEffect, useState, useRef} from 'react';
 import './Order.scss';
 import PES from '../globalVariables';
 import {
@@ -7,7 +7,7 @@ import {
     Route
 } from "react-router-dom";
 import SpatialNavigation, {FocusableSection, Focusable } from 'react-js-spatial-navigation';
-import { Container, Row, Col, Spinner, Button, ProgressBar, ToastHeader} from 'react-bootstrap';
+import { Container, Row, Col, Button, ProgressBar} from 'react-bootstrap';
 import {FaInfoCircle, FaChevronLeft}  from "react-icons/fa";
 import MealOrderingHome from '../MealOrdering/Main';
 import AvailableMenu from './AvailableMenu';
@@ -33,7 +33,6 @@ function Order(props) {
     const menuItemFocus:any = useRef(null);
     const changeQuantity:any = useRef(null);
     const [count, setCount] = useState<number>(0);
-    const [store, setStore] = useState<any>({mealCategory:[]});
     const [orderedList, updateOrderedList] = useState<any>([]);
     const [orderedMenuItemsLength, setOrderedMenuItemsLength] = useState<boolean>(false);
     const [modalButtonName, setModalButtonName] = useState<string>('');
@@ -83,7 +82,7 @@ function Order(props) {
             const selectMenuItem: HTMLCollectionOf<any> = document.getElementsByClassName("scrollitems")[0].children;
             if(modalButtonName) {
                 const menuItemIndex = meals.mealItems.findIndex(obj => {if(obj !==null) return obj.id === menuItemDetails.id});
-                menuItemFocus.current = selectMenuItem[menuItemIndex];
+                menuItemFocus.current = selectMenuItem[menuItemIndex + 1];
             }
             const element: HTMLCollectionOf<any> = document.getElementsByClassName("modalFocus");
             if(element[0].firstElementChild) {
@@ -157,6 +156,65 @@ function Order(props) {
             });   
         }
     }, [storeMeal]);
+    
+    //var [scrollTopElement, scrollBottom]:any = [document.getElementById('section02'), document.getElementById('section01')];
+    const scrollTopElement:any = document.getElementById('section02') as unknown as HTMLCollectionOf<Element>;
+    const scrollBottom:any = document.getElementById('section01') as unknown as HTMLCollectionOf<Element>;
+    const scrollItems:any = (document.getElementsByClassName('scrollitems') as HTMLCollectionOf<Element>);
+    
+    useEffect(()=>{
+        function scrollEvent(){
+            let insideScroll:number = 0;
+            for (var i=1; i <= scrollItems[0].children.length -2; i++) {
+                insideScroll += scrollItems[0].children[i].clientHeight;
+            }
+            if(insideScroll - scrollItems[0].scrollHeight ===  scrollItems[0].scrollTop) {
+                try {
+                    scrollTopElement.style.display = "none";
+                    scrollBottom.style.display = "block";
+                }
+                catch(error) {
+                    console.log(error);
+                }
+                
+            }
+            else if(insideScroll - scrollItems[0].scrollTop === scrollItems[0].clientHeight){
+                try {
+                    scrollBottom.style.display = "none";
+                    scrollTopElement.style.display = "block";
+                }
+                catch(error){
+                    console.log(error);
+                }
+            }
+        }
+        window.addEventListener("scroll", scrollEvent, true);
+        return () => {
+            window.removeEventListener("scroll", scrollEvent, true);
+        };
+    }, [scrollTopElement!== null]);
+
+    function scrollToBottom() {
+        scrollItems[0].scrollTo({
+            'behavior': 'smooth',
+            'left': 0,
+            'top': scrollItems[0].scrollHeight
+          });
+        scrollTopElement.style.display = "block";
+        scrollBottom.style.display = "none";
+        return false;
+    }
+
+    function scrollToTop() {
+        scrollItems[0].scrollTo({
+            'behavior': 'smooth',
+            'left': 0,
+            'top': scrollItems[0].offsetTop
+          });
+          scrollTopElement.style.display = "none";
+          scrollBottom.style.display = "block";
+        return false;
+    }
 
     const [caloriesProgressFlag, setCaloriesFlag] = useState<string>(moniter.left);
     const [proteinProgressFlag, setProteinFlag] = useState<string>(moniter.left);

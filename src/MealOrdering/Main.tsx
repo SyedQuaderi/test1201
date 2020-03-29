@@ -322,7 +322,7 @@ function Main(props) {
                                                     {availableMeals.activeSession.map((meal, i)=>
                                                         <Col sm={4} key={i} className="meal-session">
                                                             <Focusable onClickEnter={()=> orderMeal(meal)}>
-                                                            <Button className={"session-times" + (meal.mealDayId === 1 && mealAvailability === meal.availability ? ' removeFocus' : ' focus')} 
+                                                                <Button onClick={() => orderMeal(meal)} className={"session-times" + (meal.mealDayId === 1 && mealAvailability === meal.availability ? ' removeFocus' : ' focus')} 
                                                                 >
                                                                 <Row >
                                                                     <Col sm={4} className="text-center icon-container">

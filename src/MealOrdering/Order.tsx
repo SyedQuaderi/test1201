@@ -380,7 +380,7 @@ function Order(props) {
                         <Col xs lg="1" className="full-fixed-height">
                             <div className="meal-ordering-home-icon text-center">
                                 <Focusable onClickEnter={()=>goToHome(false, orderedList)} >
-                                    <FaChevronLeft />
+                                    <FaChevronLeft onClick={() => goToHome(false, orderedList)}/>
                                 </Focusable>
                             </div>
                             <h3 className="session-type">Back</h3>
@@ -546,7 +546,7 @@ function Order(props) {
                                         <Row>
                                             <Col sm={10} className="item-place-order">
                                                 <Focusable onClickEnter={()=>goToHome(true, props.mealMain)} >
-                                                    <Button className="item-order-button" disabled={orderedMenuItemsLength ? false : true}>Place</Button>
+                                                    <Button onClick={() => goToHome(true, props.mealMain)}  className="item-order-button" disabled={orderedMenuItemsLength ? false : true}>Place</Button>
                                                 </Focusable>
                                             </Col>
                                         </Row>

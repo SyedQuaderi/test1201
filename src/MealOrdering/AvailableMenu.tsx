@@ -52,7 +52,7 @@ function AvailableMenu(props) {
                             </props.Col>
                         )}
                     </props.Row>
-                <FocusableSection>
+                </FocusableSection>
             </div>
         </props.Col>
     )
